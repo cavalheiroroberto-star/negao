@@ -1,0 +1,109 @@
+@@ -0,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisséia Espacial: O Planeta Desconhecido</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0d1117;
+            color: #00ff66;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #game-container {
+            width: 80%;
+            max-width: 600px;
+            background-color: #161b22;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            border: 1px solid #00ff66;
+        }
+        h1 { text-align: center; color: #ffffff; }
+        #text { font-size: 18px; margin-bottom: 30px; line-height: 1.6; }
+        .btn-container { display: flex; flex-direction: column; gap: 10px; }
+        button {
+            background-color: transparent;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            padding: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        button:hover {
+            background-color: #00ff66;
+            color: #0d1117;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1 id="title">Odisséia Espacial</h1>
+    <div id="text">Carregando sistemas da nave...</div>
+    <div id="btn-container" class="btn-container"></div>
+</div>
+
+<script>
+    const textElement = document.getElementById('text');
+    const btnContainer = document.getElementById('btn-container');
+
+    const storyNodes = {
+        start: {
+            text: "Sua nave fez um pouso forçado em um planeta desconhecido. O oxigênio está em 15%. À sua frente, você vê uma caverna escura brilhando em azul e, ao longe, os destroços da ala médica da sua nave. O que você faz?",
+            options: [
+                { text: "Explorar a caverna brilhante", nextNode: 'caverna' },
+                { text: "Caminhar até os destroços da ala médica", nextNode: 'destroços' }
+            ]
+        },
+        caverna: {
+            text: "Dentro da caverna, você encontra plantas alienígenas bioluminescentes que emitem oxigênio puro! Seus tanques são recarregados. No fundo da caverna, há um portal antigo ativo.",
+            options: [
+                { text: "Entrar no portal", nextNode: 'vitoria' },
+                { text: "Voltar para os destroços da nave", nextNode: 'destroços' }
+            ]
+        },
+        destroços: {
+            text: "Você chega aos destroços, mas um predador alienígena estava rondando o local procurando comida. Com o oxigênio baixo e sem armas, você não consegue escapar.",
+            options: [
+                { text: "Tentar reiniciar o jogo", nextNode: 'start' }
+            ]
+        },
+        vitoria: {
+            text: "O portal teletransporta você diretamente para a estação espacial da Federação Humana! Você está salvo! Parabéns, você venceu a aventura espacial.",
+            options: [
+                { text: "Jogar novamente", nextNode: 'start' }
+            ]
+        }
+    };
+
+    function startStory(nodeIndex) {
+        const node = storyNodes[nodeIndex];
+        textElement.innerText = node.text;
+        btnContainer.innerHTML = '';
+
+        node.options.forEach(option => {
+            const button = document.createElement('button');
+            button.innerText = option.text;
+            button.addEventListener('click', () => startStory(option.nextNode));
+            btnContainer.appendChild(button);
+        });
+    }
+
+    // Inicia o jogo
+    startStory('start');
+</script>
+
+</body>
+</html>
